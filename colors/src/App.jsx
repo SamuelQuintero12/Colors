@@ -1,40 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import ColorSelector from './components/ColorSelector/ColorSelector'
-import ModeToggle from './components/ModeToggle/ModeToggle'
-import  Timer from './components/Timer/Timer'
-import LikeDislike from './components/LikeDislike/LikeDislike'
+import { useState, useEffect } from "react";
+import Header from "./components/Header";
+import ModeToggle from "./components/ModeToggle";
+import LikeDislike from "./components/LikeDislike";
+import ColorSelector from "./components/ColorSelector";
+import Timer from "./components/Timer";
+import "./App.css";
 
-import './App.css'
+export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [color, setColor] = useState("#FFFFFF");
 
-function App() {
-  const [count, setCount] = useState(0)
+  // Cambiar el color de fondo de toda la pantalla
+  useEffect(() => {
+    document.body.style.backgroundColor = color;
+    document.body.style.transition = "background-color 0.3s ease";
+  }, [color]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={`app ${darkMode ? "dark" : "light"}`}>
+      <Header darkMode={darkMode} />
+      <div className="container">
+        <ModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+        <LikeDislike />
+        <ColorSelector setColor={setColor} />
+        <Timer />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
-
-export default App
